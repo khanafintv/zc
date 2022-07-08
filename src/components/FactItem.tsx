@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getTime } from '../gettime';
+import { IFact } from '../types';
 
 const FactItemStyled = styled.div`
   width: 580px;
@@ -24,11 +25,7 @@ const ItemTimeStyled = styled.p`
   color: rgba(0, 0, 0, 0.35);
 `;
 
-interface FactItemProps {
-  fact: string;
-}
-
-export const FactItem: React.FC<FactItemProps> = ({ fact }) => {
+export const FactItem: React.FC<IFact> = ({ fact }) => {
   const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
