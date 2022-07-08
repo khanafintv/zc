@@ -1,8 +1,9 @@
+import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { Header } from '../components/Header';
 
 interface MainLayoutProps {
-  children: any;
+  children: ReactNode;
 }
 
 const WrapperStyled = styled.div`

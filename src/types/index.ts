@@ -6,5 +6,5 @@ export interface IFact {
 export interface IAllData {
   data: IFact[];
   from?: number;
-  last_page?: any;
+  last_page: number;
 }

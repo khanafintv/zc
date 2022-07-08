@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import '../style.css';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -92,7 +92,6 @@ export const MyPagination: React.FC<MyPaginationProps> = ({
 
   useEffect(() => {
     fetchFacts(page, limit);
-    console.log(allData);
   }, [page, limit]);
 
   const handlePageClick = (e: any) => {

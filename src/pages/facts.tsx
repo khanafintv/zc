@@ -26,7 +26,7 @@ const TitleStyled = styled.h1`
 `;
 
 export const Facts = () => {
-  const [allData, setAllData] = useState<IAllData>({ data: [] });
+  const [allData, setAllData] = useState<IAllData>({ data: [], last_page: 0 });
 
   const fetchFacts = async (page: number = 1, limit: number = 10) => {
     const response = await fetch(
