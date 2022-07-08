@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { getTime } from '../gettime';
+import { IFact } from '../types';
 
 const Container = styled.div`
   padding: 64px 370px 64px 370px;
@@ -49,34 +51,28 @@ const NewFactBtn = styled.button`
 `;
 
 export const Fact = () => {
-  const [fact, setFact] = useState('');
+  const [fact, setFact] = useState<IFact>({ fact: '' });
+  const [time, setTime] = useState<number>(0);
 
   const fetchFact = async () => {
-    let response = await fetch(`https://catfact.ninja/fact`);
-    let data = await response.json();
-    await setFact(data.fact);
-  };
-
-  const getTime = (fact: any) => {
-    let arr = fact.split(' ');
-    for (let j = 0; j < arr.length; j++) {
-      if (arr[j].length < 3) {
-        arr.splice(j, 1);
-      }
-    }
-    let time = Math.ceil(arr.length * 0.3);
-    return time;
+    const response = await fetch(`https://catfact.ninja/fact`);
+    const data = await response.json();
+    setFact(data);
   };
 
   useEffect(() => {
     fetchFact();
   }, []);
 
+  useEffect(() => {
+    setTime(getTime(fact.fact));
+  }, [fact.fact]);
+
   return (
     <Container>
       <FactTitleStyled>Random fact</FactTitleStyled>
-      <FactTextStyled>{fact}</FactTextStyled>
-      <FactTimeStyled>Can be read in {getTime(fact)} seconds</FactTimeStyled>
+      <FactTextStyled>{fact.fact}</FactTextStyled>
+      <FactTimeStyled>Can be read in {time} seconds</FactTimeStyled>
       <NewFactBtn onClick={fetchFact}>Get new fact</NewFactBtn>
     </Container>
   );

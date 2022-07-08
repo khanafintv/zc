@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FactItem } from '../components/FactItem';
 import styled from 'styled-components';
 import { MyPagination } from '../components/MyPagination';
+import { IAllData, IFact } from '../types';
 
 const FactsListStyled = styled.div`
   display: flex;
@@ -25,40 +26,29 @@ const TitleStyled = styled.h1`
 `;
 
 export const Facts = () => {
-  const [facts, setFacts]: any = useState({});
+  const [allData, setAllData] = useState<IAllData>({ data: [] });
 
   const fetchFacts = async (page: number = 1, limit: number = 10) => {
-    let response = await fetch(
+    const response = await fetch(
       `https://catfact.ninja/facts?page=${page}&limit=${limit}`
     );
-    let data = await response.json();
-    setFacts(data);
+    const data = await response.json();
+    setAllData(data);
   };
 
   useEffect(() => {
     fetchFacts();
   }, []);
 
-  const getTime = (fact: any) => {
-    let arr = fact.split(' ');
-    for (let j = 0; j < arr.length; j++) {
-      if (arr[j].length < 3) {
-        arr.splice(j, 1);
-      }
-    }
-    let time = Math.ceil(arr.length * 0.3);
-    return time;
-  };
-
   return (
     <ContainerStyled>
       <TitleStyled>List of facts</TitleStyled>
       <FactsListStyled>
-        {facts.data?.map((i: any) => {
-          return <FactItem key={i.fact} fact={i.fact} time={getTime(i.fact)} />;
-        })}
+        {allData.data?.map((i: IFact) => (
+          <FactItem key={i.fact} fact={i.fact} />
+        ))}
       </FactsListStyled>
-      <MyPagination facts={facts} fetchFacts={fetchFacts} />
+      <MyPagination allData={allData} fetchFacts={fetchFacts} />
     </ContainerStyled>
   );
 };

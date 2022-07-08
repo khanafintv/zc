@@ -1,10 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-
 import '../style.css';
-
 import styled, { createGlobalStyle } from 'styled-components';
-import { IFact } from '../types';
+import { IAllData } from '../types';
 
 const PaginationStyled = createGlobalStyle`
 .pagination {
@@ -77,32 +75,32 @@ const TextLimit = styled.p`
 `;
 
 interface MyPaginationProps {
-  facts: IFact;
+  allData: IAllData;
   fetchFacts: (page: number | undefined, limit: number | undefined) => void;
 }
 
 export const MyPagination: React.FC<MyPaginationProps> = ({
-  facts,
+  allData,
   fetchFacts,
 }) => {
-  const [page, setPage]: any = useState(1);
-  const [limit, setLimit]: any = useState(10);
+  const [page, setPage] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(10);
 
-  if (facts.from === null) {
-    fetchFacts(facts.last_page, limit);
+  if (allData.from === null) {
+    fetchFacts(allData.last_page, limit);
   }
 
   useEffect(() => {
     fetchFacts(page, limit);
-    console.log(facts);
+    console.log(allData);
   }, [page, limit]);
 
   const handlePageClick = (e: any) => {
     setPage(e.selected + 1);
   };
 
-  const handleChange = (e: ChangeEvent<any>) => {
-    setLimit(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setLimit(+e.target.value);
   };
 
   return (
@@ -113,7 +111,7 @@ export const MyPagination: React.FC<MyPaginationProps> = ({
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         marginPagesDisplayed={1}
-        pageCount={facts.last_page}
+        pageCount={allData.last_page}
         previousLabel="<"
         breakLabel="..."
         //renderOnZeroPageCount={() => null}
